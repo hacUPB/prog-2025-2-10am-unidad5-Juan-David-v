@@ -91,10 +91,27 @@ def contar_vocales(ruta):
         graf.ylabel("Cantidad")
         graf.show()
     else:
-        print("(Matplotlib no disponible, no se muestra gráfico)")
+        print("( no se muestra gráfico)")
 
 def menu_txt():
-    ruta = input("Ruta del archivo .txt: ").strip()
+    print("\nArchivos disponibles en carpeta 'RETO':")
+    try:
+        for archivo in os.listdir("RETO"):
+            if archivo.lower().endswith(".txt"):
+                print(" -", archivo)
+    except FileNotFoundError:
+        print(" Carpeta 'RETO' no encontrada. Créala en el mismo nivel del programa.")
+        pausar()
+        return
+
+    nombre = input("\nNombre del archivo .txt (solo el nombre): ").strip()
+    ruta = os.path.join("RETO", nombre)
+
+    if not os.path.exists(ruta):
+        print("El archivo no existe en la carpeta 'RETO'. Verifica el nombre.")
+        pausar()
+        return
+
     while True:
         print("\nTXT: 1) Contar  2) Reemplazar  3) Gráfico de vocales  4) Volver")
         opcion = input("Opción: ").strip()
@@ -242,7 +259,7 @@ def graficar_csv(ruta):
     graf.ylabel(encabezados[indice])
     graf.show()
 
-    # Histograma en 5 rangos
+    # Histograma
     minimo, maximo = min(y), max(y)
     bins = 5
     ancho = (maximo - minimo) / bins if bins > 0 else 1
@@ -267,7 +284,24 @@ def graficar_csv(ruta):
     graf.show()
 
 def menu_csv():
-    ruta = input("Ruta del archivo .csv: ").strip()
+    print("\nArchivos disponibles en carpeta 'RETO':")
+    try:
+        for archivo in os.listdir("RETO"):
+            if archivo.lower().endswith(".csv"):
+                print(" -", archivo)
+    except FileNotFoundError:
+        print("Carpeta 'RETO' no encontrada. Créala en el mismo nivel del programa.")
+        pausar()
+        return
+
+    nombre = input("\nNombre del archivo .csv (solo el nombre): ").strip()
+    ruta = os.path.join("RETO", nombre)
+
+    if not os.path.exists(ruta):
+        print("1 El archivo no existe en la carpeta 'RETO'. Verifica el nombre.")
+        pausar()
+        return
+
     while True:
         print("\nCSV: 1) Ver primeras 15 filas  2) Estadísticas  3) Gráficas  4) Volver")
         opcion = input("Opción: ").strip()
